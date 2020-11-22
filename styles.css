@@ -1,0 +1,48 @@
+#tableElements {
+  display: flex;
+  flex-direction: row;
+  justify-content:space-evenly;
+}
+
+#inputTable {
+  padding-top: 45px;
+  padding-bottom: 45px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  background-image: url("blueworldmap.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: auto;
+}
+
+#mainTable,
+#tableCountryAscending,
+#tableCapitalAscending {
+  border-collapse: collapse;
+}
+
+#mainTable tbody td,
+#ascendingcountry tbody td,
+#ascendingcapital tbody td {
+  font-family: monospace;
+  color: chocolate;
+  font-size: large;
+  text-align: center;
+  padding: 0px 5px;
+
+  border: 1px solid black;
+}
+
+caption {
+  font-size: x-large;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  padding: 10px;
+}
+
+thead td {
+  text-align: center;
+  color: blue;
+}
+

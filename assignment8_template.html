@@ -1,0 +1,485 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>Generate Countries table </title>
+	<!-- Do make a reference to an external stylesheet file. Add suitable headers etc -->
+	<!-- // 5 pts -->
+	<link rel="stylesheet" type="text/css" href="./styles.css">
+
+</head>
+
+<body onload="popValues()">
+
+
+	<!-- Modify this section by using the appropriate styling elements in your style sheet -->
+	<!-- // 5 pts -->
+	<div id="inputTable">
+		<table>
+
+			<tr>
+				<td><label id="Number1lbl" for="Number1lbl">Max Number of Countries</label></td>
+				<td><input type="text" id="maxctryNumber" placeholder="3"></td>
+			</tr>
+			<tr>
+				<td><label id="Number1lbl" for="Number1lbl">Country Name</label></td>
+				<td><input type="text" id="ctryNametxt" placeholder="Country Name"></td>
+			</tr>
+			<tr>
+				<td><label id="Number2lbl" for="Number2lbl">Country Capital</label></td>
+				<td><input type="text" id="ctryCapitaltxt" placeholder="Country Capital"></td>
+			</tr>
+			<tr>
+				<td><label id="Number3lbl" for="Number3lbl">Country Population</label></td>
+				<td><input type="text" id="ctryPoplntxt" placeholder="1,000,000"></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><button type="button" id="addcountry" onclick="addcountry()">Add country</button></td>
+				<td><button type="button" id="generatectry" onclick="generatecountrieslist()">Generate
+						Countries</button>
+				</td>
+			</tr>
+			<tr>
+				<td><button type="button" id="sortcountryasc" onclick="sortcountryascending()">Country
+						Ascending</button>
+				</td>
+				<td><button type="button" id="sortcptlasc" onclick="sortcptlascending()">Capital Ascending</button></td>
+			</tr>
+		</table>
+
+
+	</div>
+
+
+
+	<br><br><br>
+	<!-- These div sections here handle the table generation of the country list. It gets expanded at run time by the javascript code when you press the buttons. -->
+	<!-- These div sections are currently formatted to give tables one below the other. Use your imagination and try formatting them side by side	-->
+	<!-- // 5 pts -->
+
+	<div id="tableElements">
+
+		<div id="tableContent">
+			<table id='mainTable'>
+
+			</table>
+		</div>
+
+
+		<div id="ascendingcountry">
+			<table id="tableCountryAscending">
+
+			</table>
+		</div>
+
+
+		<div id="ascendingcapital">
+			<table id="tableCapitalAscending">
+
+			</table>
+		</div>
+
+
+	</div>
+
+
+	<script>
+		var defaultcountrylist = 3;
+
+		//Declaring and defining string array variables one for country, one for capitals that we want to use. Prepopulating them with three values.
+		var userinputcountry = ["Norway", "Sweden", "Denmark"];
+		var userinputcptl = ["Oslo", "Stockholm", "Copenhagen"];
+		var userinputpop = ["5,421,000", "10,100,000", "5,800,000"]
+
+		//Declaring and defining object array for countrylist. Every country object has three attributes under it as you can see below. This initial country array is prepopulated with three countries.	
+		const countrylist = [
+			{
+				"name": "Norway",
+				"capital": "Oslo",
+				"population": "5,421,000",
+
+			},
+			{
+				"name": "Sweden",
+				"capital": "Stockholm",
+				"population": "10,100,000",
+			},
+			{
+				"name": "Denmark",
+				"capital": "Copenhagen",
+				"population": "5,800,000",
+			},
+			{
+				"name": "Montserrat",
+				"capital": "Plymouth",
+				"population": "1,478",
+			}
+			,
+			{
+				"name": "Syria",
+				"capital": "Damascus",
+				"population": "16,910,000",
+			}
+			,
+
+			{
+				"name": "North Korea",
+				"capital": "Pyongyang",
+				"population": "2,870,000",
+			}
+			,
+			{
+				"name": "Slovakia",
+				"capital": "Bratislava",
+				"population": "424,428",
+			}
+			,
+			{
+				"name": "Spain",
+				"capital": "Madrid",
+				"population": "3,223,000",
+			}
+			,
+
+			{
+				"name": "Taiwan",
+				"capital": "Taipei",
+				"population": "2,646,000",
+			},
+			{
+				"name": "Pakistan",
+				"capital": "Islamabad",
+				"population": "1,015,000",
+			}
+			,
+
+
+		];
+
+		//Test function to add list the number of elements in the countrylist JSON object!
+		function popValues() {
+
+			document.getElementById('maxctryNumber').placeholder = countrylist.length;
+
+		}
+
+		//function to clear the values from the fields on the page
+		function clearForm() {
+			document.getElementById('ctryNametxt').value = "";
+			document.getElementById('ctryCapitaltxt').value = "";
+			document.getElementById('ctryPoplntxt').value = "";
+		}
+
+
+
+		// This is the javascript function to call and modify when we click add country
+		// Use the push function
+		function addcountry() {
+
+			var lcladdedcountry = document.getElementById('ctryNametxt').value;
+			var lcladdedcptl = document.getElementById('ctryCapitaltxt').value;
+			var lclpopln = document.getElementById('ctryPoplntxt').value;
+
+			//Check to make sure the fields are not empty
+			if (lcladdedcountry == "" || lcladdedcptl == "" || lclpopln == "") {
+				alert("Please fill in all forms!")
+
+				return;
+
+			}
+
+			//For loop to determine if the capital or country exists!
+			for (let index = 0; index < countrylist.length; index++) {
+
+				const elementName = countrylist[index].name;
+				const elementCapital = countrylist[index].capital;
+
+				if (lcladdedcountry.toUpperCase() == elementName.toUpperCase()) {
+					alert("This country is already in the list!");
+					clearForm();
+					return;
+
+				}
+
+
+				if (lcladdedcptl.toUpperCase() == elementCapital.toUpperCase()) {
+					alert("This capital is already in the list!");
+					clearForm();
+					return
+				}
+
+			}
+
+			// Use the push function to add the two local variables lcladdedcopuntry and lcladdedcptl to the string array variables that were defined earlier and prepopulated with 3 variables. Do google tofind how to push additional elements to a string array
+			/*5 pts */
+			userinputcountry.push(lcladdedcountry);
+			userinputcptl.push(lcladdedcptl);
+			userinputpop.push(lclpopln);
+
+			//Use the push function to  add a new country to the countrylist object array that was previously defined. It is similar to adding or pushing a single value to a string counter. Here instead of one value you need to add three values since the country object is made of three attributes. Do google to find how to push objects to an object array. 
+			/* 5 pts */
+			countrylist.push({ "name": lcladdedcountry, "capital": lcladdedcptl, "population": lclpopln });
+
+
+			/* Increasing the number of countries count by 1 since you have successfully added a country */
+			defaultcountrylist++;
+
+			popValues();
+
+			//-------->>>>max number of values are increased by counting the number of elements in the array
+			document.getElementById('maxctryNumber').placeholder = countrylist.length;
+
+
+			/* Write code here to clean out the html elements since you have now added the country. Present a success message that the country was added. Update the maxNumberofCountries added value 
+			/*5 pts */
+			document.getElementById('ctryNametxt').value = "";
+			document.getElementById('ctryCapitaltxt').value = "";
+			document.getElementById('ctryPoplntxt').value = "";
+
+			/*Alert to show the information was accepted*/
+			alert("Values were accepted!")
+
+		}
+
+
+		function generatecountries() {
+
+			const tmpl = (userinputcountry, userinputcptl) => `
+				<table><thead>
+				<tr><th>Country<th>Capital<tbody>
+				${userinputcountry.map((cell, index) => `
+					<tr><td>${cell}<td>${userinputcptl[index]}</tr>
+				`).join('')}
+				</table>`;
+
+			tableContent.innerHTML = tmpl(userinputcountry, userinputcptl);
+
+
+			/*var tmpl ='<h2> There are ' + defaultcountrylist + ' countries so far added to the list </h2>';
+			tableContent.innerHTML=tmpl; */
+			console.log("hello");
+
+
+		}
+
+		function generatecountrieslist() {
+			//var tbody = document.getElementById('tbody');
+			//var tableHTML = "<table><thead><tr><th>Country<th>Capital<th>Population</thead><tbody>";
+
+
+			/* Write code here to loop through countrylist array object (each country is a separate row) <tr> and then list out each attribute under country list array objectseparated by <td> </td> */
+			/* You will have to use a for loop or a while loop to make sure you have gone through all the objects in the countrylist array object */
+			/* Do go through google and search for code examples on how to take an array of objects and display them as a table */
+			/* 15 pts */
+
+			//tableHTML += "</tbody></table>";
+			//tableContent.innerHTML = tableHTML;
+
+			document.getElementById('mainTable').innerText = "";
+
+			//create a table varaible to hold the existing table object
+			var tableA = document.getElementById('mainTable');
+
+
+			//create a caption for the table dynamically
+			tableA.createCaption().innerHTML = "Generated List";
+
+			//Display the list with no modifications, goes through each element in the countrylist and places it in the table
+			countrylist.forEach(element => {
+
+				var rowBody = tableA.insertRow(-1);
+				var country = rowBody.insertCell(0);
+				var capital = rowBody.insertCell(1);
+				var population = rowBody.insertCell(2)
+
+				/*"name": "Norway",
+					"capital": "Oslo",
+					"population": "5,421,000"
+				*/
+
+				country.innerHTML = element.name;
+				capital.innerHTML = element.capital;
+				population.innerHTML = element.population;
+
+			});
+
+			//create a table header to hold the Country, Capital, and Population
+			var header = tableA.createTHead();
+
+
+			//insert title for the columns
+			var row = header.insertRow(0);
+			row.insertCell(0).innerHTML = "Country";
+			row.insertCell(1).innerHTML = "Capital";
+			row.insertCell(2).innerHTML = "Population";
+
+		}
+
+		function sortcountryascending() {
+
+			/* Write code here to generate table where the country list has been sorted out in asecending order based on the country name */
+
+			/*PAY CAREFUL ATTENTION */
+
+			/* You will have to write code that is similar to the code in the above function. In addition, you will have to use sort() function */
+			/* We have been using 2 redundant string array variables called userinputcountry and userinputcptl. Well, they are redundant until now */
+
+			/* Do a sort function on the userinputcountry variable and you will see that the order of the countries change in the output you get. Store the output in a local string array. */
+			/* Now use this output stored in a local array. Take every item in the output that is stored in the local arrsy (LOOP THROUGH IT) */
+			/* Do a string compare to the actual country name in the actual country object ctrylist array (Loop through the CountryObject array). */
+			/* If it is a match then write the attributes of the country object from the country object array using <tr><td> like you did in the generate countries list() */
+
+			/* 15 PTS */
+
+			
+			var listToSort = countrylist.slice();
+
+			//Sort the list by name
+			listToSort.sort(function (a, b) {
+
+				var nameA = a.name.toUpperCase();
+				var nameB = b.name.toUpperCase();
+
+				if (nameA < nameB) {
+					return -1;
+				}
+				if (nameA > nameB) {
+					return 1;
+				}
+				return 0;
+
+			})
+
+			//Before populating the table we need to make sure that there is no info in the table
+			//We are clearing the table
+			document.getElementById('tableCountryAscending').innerText = "";
+
+			//Declare the tableCountryAscending variable so that we can add rows and headers dynamically
+			var tableA = document.getElementById('tableCountryAscending');
+
+			//Create a caption for the table
+			tableA.createCaption().innerHTML = "Sorted By Country";
+
+			//Populate the table with the countrylist sorted by country
+			listToSort.forEach(element => {
+
+
+				var row = tableA.insertRow(-1);
+				var country = row.insertCell(0);
+				var capital = row.insertCell(1);
+				var population = row.insertCell(2)
+
+				/*"name": "Norway",
+					"capital": "Oslo",
+					"population": "5,421,000"
+				*/
+
+				console.log(element)
+
+				country.innerHTML = element.name;
+				capital.innerHTML = element.capital;
+				population.innerHTML = element.population;
+
+
+
+
+			});
+
+			//the header so that the columns are labeled must placed at the end of creating the table
+			var header = tableA.createTHead();
+
+			var row = header.insertRow(0);
+
+			row.insertCell(0).innerHTML = "Country";
+			row.insertCell(1).innerHTML = "Capital";
+			row.insertCell(2).innerHTML = "Population";
+
+
+		}
+
+		function sortcptlascending() {
+			/* Do everything you did above for sortcountries(). Exceot use the stringarray variable userinputcptl */
+
+
+			/* 15 PTS */
+
+
+
+
+			//create a clone of the countrylist object
+			var listToSort = countrylist.slice();
+
+			//Sort the list by capital
+			listToSort.sort(function (a, b) {
+
+				var nameA = a.capital.toUpperCase();
+				var nameB = b.capital.toUpperCase();
+
+				if (nameA < nameB) {
+					return -1;
+				}
+				if (nameA > nameB) {
+					return 1;
+				}
+				return 0;
+
+			})
+			//Before populating the table we need to make sure that there is no info in the table
+			//We are clearing the table
+			document.getElementById('tableCapitalAscending').innerText = "";
+
+
+
+			//Declare the tableCountryAscending variable so that we can add rows and headers dynamically
+			var tableA = document.getElementById('tableCapitalAscending');
+
+
+			//Create a caption for the table
+			tableA.createCaption().innerHTML = "Sorted By Capital"
+
+			//Populate the table with the countrylist sorted by capital
+			listToSort.forEach(element => {
+
+
+				var row = tableA.insertRow(-1);
+				var country = row.insertCell(0);
+				var capital = row.insertCell(1);
+				var population = row.insertCell(2)
+
+				/*"name": "Norway",
+					"capital": "Oslo",
+					"population": "5,421,000"
+				*/
+
+				console.log(element)
+
+				country.innerHTML = element.name;
+				capital.innerHTML = element.capital;
+				population.innerHTML = element.population;
+
+
+
+
+			});
+
+			//the header so that the columns are labeled must placed at the end of creating the table
+			var header = tableA.createTHead();
+
+			var row = header.insertRow(0);
+
+			row.insertCell(0).innerHTML = "Country";
+			row.insertCell(1).innerHTML = "Capital";
+			row.insertCell(2).innerHTML = "Population";
+
+		}
+
+	</script>
+</body>
+
+</html>
